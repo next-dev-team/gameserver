@@ -1,6 +1,7 @@
 package internal
 
 import (
+	"gameserver/db/model"
 	"gameserver/msg"
 	"reflect"
 
@@ -41,12 +42,15 @@ func handleGameState(args []interface{}) {
 		a.WriteMsg(&msg.GameStateResult{
 			Msg: "Game stopped",
 		})
+		// insert todo
+		mysqlDB.Create(&model.Todo{Text: "stop game", Done: true})
 	}
 	if m.Status == 2 {
 		rollDice()
 		a.WriteMsg(&msg.GameStateResult{
 			Msg: "Game started",
 		})
+		mysqlDB.Create(&model.Todo{Text: "start game", Done: true})
 	}
 
 }
